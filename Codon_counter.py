@@ -176,7 +176,12 @@ def fna_in_nucleic_counter(file):
                 ind_codon_list.append(codon)
                 times += 1
         return ind_codon_list
-    
+
+    A_new = 0
+    G_new = 0
+    T_new = 0
+    C_new = 0
+
     with open(file, 'r') as myfile:
         text = myfile.read()
     ALL_CODONS = []
@@ -187,12 +192,18 @@ def fna_in_nucleic_counter(file):
             end = i.find("\n")
             fasta_name = '>'+sub('\n', '', i[:end])
             fasta_sequence = sub('\n', '', i[end:])
+            A_new += fasta_sequence.count('A')
+            G_new += fasta_sequence.count('G')
+            T_new += fasta_sequence.count('T')
+            C_new += fasta_sequence.count('C')
             fasta_codons = codon_obtain(fasta_sequence)
             ALL_CODONS = ALL_CODONS + fasta_codons # полный список всех кодонов генома
     genome_name_ind = file.rfind('/')
     genome_name = file[genome_name_ind+1:]
     all_codon_count += len(ALL_CODONS)
-    print('Прочитано', len(ALL_CODONS), 'кодонов из файла', genome_name)
+    GC = (G_new+C_new)*100/(G_new+C_new+A_new+T_new)
+    perGC = str(format(GC, '.2f'))+'%'
+    print('GC-состав кодирующей части', perGC)
 
     CODONS_list = Counter(ALL_CODONS)
 
@@ -402,6 +413,7 @@ if group_mode == True:
         try:
             new_path = os.path.join(path, i)
             genome=open_file(new_path)
+            error_format = False
         except:
             print('Файл', i, 'не обработан!')
             print('Нечитаемый файл \n')
