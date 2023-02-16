@@ -4,4 +4,29 @@
 It's easy. Just install Python 3, open .py file in IDLE or another IDE,
 read the instructions inside and work!
 
+
+#Duplicate the instruction from the Codon_Counter file
+Analysis requires
+     pandas module (pip3 install pandas)
+     openpyxl module (pip3 install openpyxl)
+     possibly the collections module (similar to the first two)
+
+The program accepts as input files:
+*.gb, .gbk, .gbff and other GenBank files containing annotations
+*.fna files containing nucleotide sequences of genes (be careful - the program is not yet able to adequately exclude tRNA, rRNA and ncRNA from such files)
+
+The program generates *.fna files without RNA itself in a separate folder, they can be used later
+This is a beta version of the program, only tested on Linux
+ 
+P.S.
+Warning 1. The files will contain numbers with dots, which are not defined as numbers in Russian localization.
+Solution 1: "Edit - Replace All", replace all dots with commas
+
+Warning 2. The error of determined percentages is set to the 6th decimal place by default.
+Since the average number of codons in a bacterial genome is approximately 600,000 - 700,000, for eukaryotic comparisons
+or viruses, someone may need to expand or narrow the margin of error.
+Solution 2: Line 279: X = format(float((X/summ)*100), '.6f')
+Instead of 6, put any desired number of decimal places
+
+
 Happy exploration!
