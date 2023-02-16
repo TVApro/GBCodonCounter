@@ -25,7 +25,7 @@ Solution 1: "Edit - Replace All", replace all dots with commas
 
 Warning 2. The error of determined percentages is set to the 6th decimal place by default.
 Since the average number of codons in a bacterial genome is approximately 600,000 - 700,000, for eukaryotic comparisons
-or viruses, someone may need to expand or narrow the margin of error.
+or viruses someone may need to expand or narrow the margin of error.
 Solution 2: Line 279: X = format(float((X/summ)*100), '.6f')
 Instead of 6, put any desired number of decimal places
 
