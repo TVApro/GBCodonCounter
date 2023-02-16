@@ -5,7 +5,8 @@ It's easy. Just install Python 3, open .py file in IDLE or another IDE,
 read the instructions inside and work!
 
 
-#Duplicate the instruction from the Codon_Counter file
+### The instruction from the Codon_Counter.py file
+
 Analysis requires
      pandas module (pip3 install pandas)
      openpyxl module (pip3 install openpyxl)
