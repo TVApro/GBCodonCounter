@@ -38,50 +38,50 @@ def start():
     global single_mode
     global group_mode
     global percentage
-    print('\nДобро пожаловать в программу подсчёта кодонов!')
+    print('\nWelcome to the codon counting program!')
     while x1 == False:
-        q = input('Выберите режим работы: \n 1 - одиночный анализ \n 2 - групповой анализ \n 3 - выход \n\n Ответ: ')
+        q = input('Select operating mode: \n 1 - single analysis \n 2 - group analysis \n 3 - exit \n\n Answer: ')
         otvet_list = ('1', '2', '3')
         if q == '1': 
             single_mode = True
             group_mode = False
-            print('Режим анализа единичного генома\n')
+            print('Single genome analysis mode\n')
             x1 = True
         if q == '2': 
             group_mode = True
             single_mode = False
-            print('Режим анализа группы геномов\n')
+            print('Group of genomes analysis mode\n')
             x1 = True
         if q == '3':
-            print('Выход')
+            print('Exit')
             exit()
         if q not in otvet_list: 
-            print('Выбрана неверная опция. Начните выбор заново\n')
-    w = input('\nНеобходимо процентное отношение?\n 0 - нет\n пропуск - по умолчанию да\n\n Ответ: ')
+            print('Invalid option selected. Start selection again\n')
+    w = input('\nNeed a percentage?\n 0 - no\n pass - default yes\n\n Answer: ')
     if w == '0':
         percentage = False
-        print('Выбрано определение абсолютного количества аминокислот\n')
+        print('Determination of the absolute number of amino acids is chosen\n')
     else:
-        print('Выбрано вычисление процентного отношения\n')
+        print('Percentage calculation selected\n')
 
 
 def open_file(seq):
     with open(seq, 'r') as file:
             text = file.read()
-    print('Открыт файл', file)
+    print('Opened', file)
     return text
    
 def file_format_def(text):
     forma = ''
     if text[:1] == '>':
         forma = 'fasta'
-        print('Формат файла: fasta')
+        print('File formate: fasta')
     if text[:5] == "LOCUS":
         forma = 'gbk'
-        print('Формат файла: genbank')
+        print('File formate: genbank')
     if text[:1] != '>' and text[:5] != "LOCUS":
         forma = 'error'
-        print('Входной файл не соответствует формату (genbank или .faa)')
+        print('The input file does not match the format (genbank or .faa)')
     return forma
         
 def gbk_to_fna(text, file_name, path):
@@ -162,7 +162,7 @@ def gbk_to_fna(text, file_name, path):
                                 with open(new_path, 'a') as fna_file:
                                     print(fna_name+'\n'+nucleic_acids, file=fna_file)
     all_AA_count += prot_number
-    print('Прочитано', prot_number, 'белковых последовательностей')
+    print('Read', prot_number, 'protein sequences')
 
 def fna_in_nucleic_counter(file):
     global all_codon_count
@@ -203,7 +203,7 @@ def fna_in_nucleic_counter(file):
     all_codon_count += len(ALL_CODONS)
     GC = (G_new+C_new)*100/(G_new+C_new+A_new+T_new)
     perGC = str(format(GC, '.2f'))+'%'
-    print('GC-состав кодирующей части', perGC)
+    print('GC-composition of the coding part', perGC)
 
     CODONS_list = Counter(ALL_CODONS)
 
@@ -367,29 +367,29 @@ if single_mode == True:
     try:
         x2 = False
         while x2 == False:
-            file = input('Введите адрес последовательности: \n')
+            file = input('Enter sequence address: \n')
             genome=open_file(file)
             forma = file_format_def(genome)
             if forma == 'error':
-                print('\nПопробуйте ещё раз\n')
+                print('\nTry again\n')
             else:
                 x2 = True
         if forma == 'gbk':
-            output_file = input('Выберите имя табличного файла с результатами анализа: ')
+            output_file = input('Select the name of the table file with the analysis results: ')
             print('\n')
             gbk_to_fna(genome, file, path)
             newfile = file+'.fna'
             new_row = fna_in_nucleic_counter(newfile)
         if forma == 'fasta':
-            output_file = input('Выберите имя табличного файла с результатами анализа: ')
+            output_file = input('Select the name of the table file with the analysis results: ')
             print('\n')
             new_row = fna_in_nucleic_counter(file)
         start_frame = pd.concat([start_frame, new_row], axis=1)
         start_frame.to_excel(output_file+'.xlsx')
-        print('\nЗаписан файл '+output_file+'.xlsx')
-        print('\nВсего обработано', all_codon_count, 'кодонов')
+        print('\nRecorded file '+output_file+'.xlsx')
+        print('\nTotal processed', all_codon_count, 'codons')
     except:
-        print('Записать файл не удалось')
+        print('Failed to write file')
 
 
 if group_mode == True:
@@ -399,15 +399,15 @@ if group_mode == True:
     x3 = False
     error_format = False
     while x3 == False:
-        path = input("Укажите путь к папке с геномами: ")
+        path = input("Specify the path to the folder with genomes: ")
         if os.path.isdir(path):
             genomes_list = os.listdir(path)
             x3 = True
-            output_file = input('Выберите имя табличного файла с результатами анализа: ')
+            output_file = input('Select the name of the table file with the results of the analysis: ')
             print('\n')
         else:
-            print('Пути к папке не существует')
-            print('Попробуйте ещё раз\n')
+            print('Path to folder does not exist')
+            print('Try again\n')
 
     for i in genomes_list:
         try:
@@ -415,15 +415,15 @@ if group_mode == True:
             genome=open_file(new_path)
             error_format = False
         except:
-            print('Файл', i, 'не обработан!')
-            print('Нечитаемый файл \n')
+            print('File', i, "doesn't processed!")
+            print('Unreadable file \n')
             error_format = True
             error_number += 1
 
         if error_format == False:
             forma = file_format_def(genome)
             if forma == 'error':
-                print('Файл', i, 'не обработан!\n')
+                print('File', i, "doesn't processed!")
             if forma == 'gbk':
                 try:
                     fna_path = os.path.join(path, 'genomes_fna_translates')
@@ -431,30 +431,30 @@ if group_mode == True:
                         os.mkdir(fna_path)
                     gbk_to_fna(genome, i, fna_path)
                     newfile = os.path.join(fna_path, i+'.fna')
-                    print('Файл', newfile, 'создан!')
+                    print('File', newfile, 'was made!')
                     new_row = fna_in_nucleic_counter(newfile)
                     start_frame = pd.concat([start_frame, new_row], axis=1)
-                    print('Файл', newfile, 'обработан!\n')
+                    print('File', newfile, 'was processed!\n')
                     genome_number += 1
                 except:
-                    print('Файл', newfile, 'не обработан! Внутренняя ошибка\n')
+                    print('File', newfile, "doesn't processed! Inner mistake\n")
                     error_number += 1
             if forma == 'fasta':
                 try:
                     new_row = fna_in_nucleic_counter(i)
                     start_frame = pd.concat([start_frame, new_row], axis=1)
-                    print('Файл', i, 'обработан!\n')
+                    print('File', newfile, 'was processed!\n')
                     genome_number += 1
                 except:
-                    print('Файл', newfile, 'не обработан! Внутренняя ошибка\n')
+                    print('File', newfile, "doesn't processed! Inner mistake\n")
                     error_number += 1
     if genome_number == 0:
-        print('Ошибка, файлов не обнаружено')
+        print('Error, no files found')
     if genome_number >= 0:
-        print('\nОбработано', genome_number, 'файлов')
-        print('\nВ процессе анализа возникло', error_number, 'ошибок')
-        print('\nВсего обработано', all_AA_count, 'последовательностей')
-        print('\nВсего обработано', all_codon_count, 'кодонов')
+        print('\nProcessed', genome_number, 'files')
+        print('\nThere were', error_number, 'errors during parsing')
+        print('\nTotal processed', all_AA_count, 'sequences')
+        print('\nTotal processed', all_codon_count, 'codons')
         start_frame.to_excel(output_file+'.xlsx')
-        print('\nЗаписан файл '+output_file+'.xlsx')
+        print('\nRecorded file '+output_file+'.xlsx')
         print('\n')
