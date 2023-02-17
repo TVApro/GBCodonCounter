@@ -63,7 +63,7 @@ def start():
     w = input('\nNeed a percentage?\n 0 - no\n pass - default yes\n\n Answer: ')
     if w == '0':
         percentage = False
-        print('Determination of the absolute number of amino acids is chosen\n')
+        print('Determination of the absolute number selected\n')
     else:
         print('Percentage calculation selected\n')
 
