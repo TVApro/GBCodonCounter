@@ -1,7 +1,9 @@
 ## Genomes_codon_counter
 # Codon counter for easy work with annotated genomes
 
-It's easy. Just install Python 3, open .py file in IDLE or another IDE,
+It's easy. 
+
+Just install Python 3, open .py file in IDLE or another IDE,
 read the instructions inside and work!
 
 
@@ -20,7 +22,6 @@ The program accepts as input files:
 *.fna files containing nucleotide sequences of genes (be careful - the program is not yet able to adequately exclude tRNA, rRNA and ncRNA from such files)
 
 The program generates *.fna files without RNA itself in a separate folder, they can be used later
-This is a beta version of the program, only tested on Linux
  
 ### P.S.
 Warning 1. The files will contain numbers with dots, which are not defined as numbers in Russian localization.
