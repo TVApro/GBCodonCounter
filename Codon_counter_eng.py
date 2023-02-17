@@ -1,29 +1,32 @@
 #! /usr/bin/python3
 # Программа для получения статистических данных о кодонах в геноме
 
-'''Для анализа необходимы
-    модуль pandas (pip3 install pandas)
-    модуль openpyxl (pip3 install openpyxl)
-    возможно, модуль collections (аналогично первым двум)
-В качестве входящих файлов программа принимает:
-    файлы *.gb, .gbk, .gbff и прочие файлы GenBank, содержащие аннотации
-    файлы *.fna, содержащие нуклеотидные последовательности генов (будьте аккуратны - программа пока не умеет адекватно исключать из таких файлов тРНК, рРНК и нкРНК)
-Файлы *.fna без РНК программа генерирует сама в отдельной папке, их можно использовать в дальнейшем
-Это бета-версия программы, тестировалась только в Linux
-    
-    С уважением,
-    Трубицын В.Э.
-    lichoradkin43@gmail.com
-    
-    P.S. 
-        Предупреждение 1. Файлы будут содержать числа с точками, которые не определяются в русской локализации как числа.
-        Решение 1: "Правка - Заменить всё", все точки заменить на запятые
-        
-        Предупреждение 2. Погрешность определяемых процентов по умолчанию установлена до 6-го знака после запятой.
-        Так как среднее количество кодонов в бактериальном геноме примерно 600 000 - 700 000, для сравнений эукариот
-        или вирусов кому-то может понадобиться расширить или сузить диапазон погрешности.
-        Решение 2. Строка 279: X = format(float((X/summ)*100), '.6f')
-        Вместо 6 поставьте любое нужное число знаков после запятой'''
+'''The instruction from the Codon_Counter.py file
+
+Analysis requires pandas, openpyxl and collections modules:
+
+ pip3 install pandas
+ pip3 install openpyxl
+ pip3 install collections
+
+The program accepts as input files:
+
+*.gb, .gbk, .gbff and other GenBank files containing annotations
+
+*.fna files containing nucleotide sequences of genes (be careful - the program is not yet able to adequately exclude tRNA, rRNA and ncRNA from such files)
+
+The program generates *.fna files without RNA itself in a separate folder, they can be used later
+P.S.
+
+Warning 1. The files will contain numbers with dots, which are not defined as numbers in Russian localization.
+
+Solution 1: "Edit - Replace All" in any office program (MS Excel, OnlyOffice, LibreOffice, WPS Office etc.), replace all dots with commas
+
+Warning 2. The error of determined percentages is set to the 6th decimal place by default. Since the average number of codons in a bacterial genome is approximately 600,000 - 700,000, for eukaryotic comparisons or viruses someone may need to expand or narrow the margin of error.
+
+Solution 2: Line 279: X = format(float((X/summ)*100), '.6f') Instead of 6, put any desired number of decimal places
+
+Happy exploration!'''
 
 import re
 from re import sub
@@ -206,8 +209,7 @@ def fna_in_nucleic_counter(file):
     print('GC-composition of the coding part', perGC)
 
     CODONS_list = Counter(ALL_CODONS)
-
-    ATG = CODONS_list['ATG']
+    
     TGT = CODONS_list['TGT'] 
     TGC = CODONS_list['TGC']
     TGG = CODONS_list['TGG']
@@ -273,7 +275,7 @@ def fna_in_nucleic_counter(file):
     TGA = CODONS_list['TGA']
     TAG = CODONS_list['TAG']
 
-    new_list = [ATG, TGT, TGC, TGG, GAT, GAC, TTT, TTC, GGT, GGC, 
+    new_list = [TGT, TGC, TGG, GAT, GAC, TTT, TTC, GGT, GGC, 
                 GGA, GGG, ACT, ACC, ACA, ACG, TCT, TCC, TCA, TCG,
                 AGT, AGC, ATG, GCT, GCC, GCA, GCG, TAT, TAC, CAT,
                 CAC, CTT, CTC, CTA, CTG, TTA, TTG, GAA, GAG, CCT,
@@ -306,8 +308,7 @@ new_row = ()
 all_codon_count = 0
 all_AA_count = 0
 
-first_column = pd.DataFrame({'AK': ['START', 
-                                    'Cys', 'Cys', 
+first_column = pd.DataFrame({'AA': ['Cys', 'Cys', 
                                     'Trp', 
                                     'Asp', 'Asp', 
                                     'Phe', 'Phe', 
@@ -329,30 +330,29 @@ first_column = pd.DataFrame({'AK': ['START',
                                     'Ile', 'Ile', 'Ile', 
                                     'STOP', 'STOP', 'STOP']})
 
-START_list = pd.DataFrame(['ATG'], columns=['КОДОНЫ'])
-Cys_list = pd.DataFrame(['TGT', 'TGC'], columns=['КОДОНЫ'])
-Trp_list = pd.DataFrame(['TGG'], columns=['КОДОНЫ'])
-Asp_list = pd.DataFrame(['GAT', 'GAC'], columns=['КОДОНЫ'])
-Phe_list = pd.DataFrame(['TTT', 'TTC'], columns=['КОДОНЫ'])
-Gly_list = pd.DataFrame(['GGT', 'GGC', 'GGA', 'GGG'], columns=['КОДОНЫ'])
-Thr_list = pd.DataFrame(['ACT', 'ACC', 'ACA', 'ACG'], columns=['КОДОНЫ'])
-Ser_list = pd.DataFrame(['TCT', 'TCC', 'TCA', 'TCG', 'AGT', 'AGC'], columns=['КОДОНЫ'])
-Met_list = pd.DataFrame(['ATG'], columns=['КОДОНЫ'])
-Ala_list = pd.DataFrame(['GCT', 'GCC', 'GCA', 'GCG'], columns=['КОДОНЫ'])
-Tyr_list = pd.DataFrame(['TAT', 'TAC'], columns=['КОДОНЫ'])
-His_list = pd.DataFrame(['CAT', 'CAC'], columns=['КОДОНЫ'])
-Leu_list = pd.DataFrame(['CTT', 'CTC', 'CTA', 'CTG', 'TTA', 'TTG'], columns=['КОДОНЫ'])
-Glu_list = pd.DataFrame(['GAA', 'GAG'], columns=['КОДОНЫ'])
-Pro_list = pd.DataFrame(['CCT', 'CCC', 'CCA', 'CCG'], columns=['КОДОНЫ'])
-Val_list = pd.DataFrame(['GTT', 'GTC', 'GTA', 'GTG'], columns=['КОДОНЫ'])
-Arg_list = pd.DataFrame(['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], columns=['КОДОНЫ'])
-Lys_list = pd.DataFrame(['AAA', 'AAG'], columns=['КОДОНЫ'])
-Asn_list = pd.DataFrame(['AAT', 'AAC'], columns=['КОДОНЫ'])
-Gln_list = pd.DataFrame(['CAA', 'CAG'], columns=['КОДОНЫ'])
-Ile_list = pd.DataFrame(['ATT', 'ATC', 'ATA'], columns=['КОДОНЫ'])
-STOP_list = pd.DataFrame(['TAA', 'TGA', 'TAG'], columns=['КОДОНЫ'])
+Cys_list = pd.DataFrame(['TGT', 'TGC'], columns=['CODONS'])
+Trp_list = pd.DataFrame(['TGG'], columns=['CODONS'])
+Asp_list = pd.DataFrame(['GAT', 'GAC'], columns=['CODONS'])
+Phe_list = pd.DataFrame(['TTT', 'TTC'], columns=['CODONS'])
+Gly_list = pd.DataFrame(['GGT', 'GGC', 'GGA', 'GGG'], columns=['CODONS'])
+Thr_list = pd.DataFrame(['ACT', 'ACC', 'ACA', 'ACG'], columns=['CODONS'])
+Ser_list = pd.DataFrame(['TCT', 'TCC', 'TCA', 'TCG', 'AGT', 'AGC'], columns=['CODONS'])
+Met_list = pd.DataFrame(['ATG'], columns=['CODONS'])
+Ala_list = pd.DataFrame(['GCT', 'GCC', 'GCA', 'GCG'], columns=['CODONS'])
+Tyr_list = pd.DataFrame(['TAT', 'TAC'], columns=['CODONS'])
+His_list = pd.DataFrame(['CAT', 'CAC'], columns=['CODONS'])
+Leu_list = pd.DataFrame(['CTT', 'CTC', 'CTA', 'CTG', 'TTA', 'TTG'], columns=['CODONS'])
+Glu_list = pd.DataFrame(['GAA', 'GAG'], columns=['CODONS'])
+Pro_list = pd.DataFrame(['CCT', 'CCC', 'CCA', 'CCG'], columns=['CODONS'])
+Val_list = pd.DataFrame(['GTT', 'GTC', 'GTA', 'GTG'], columns=['CODONS'])
+Arg_list = pd.DataFrame(['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], columns=['CODONS'])
+Lys_list = pd.DataFrame(['AAA', 'AAG'], columns=['CODONS'])
+Asn_list = pd.DataFrame(['AAT', 'AAC'], columns=['CODONS'])
+Gln_list = pd.DataFrame(['CAA', 'CAG'], columns=['CODONS'])
+Ile_list = pd.DataFrame(['ATT', 'ATC', 'ATA'], columns=['CODONS'])
+STOP_list = pd.DataFrame(['TAA', 'TGA', 'TAG'], columns=['CODONS'])
 
-new_frame = pd.concat([START_list, Cys_list, Trp_list, Asp_list, Phe_list,
+new_frame = pd.concat([Cys_list, Trp_list, Asp_list, Phe_list,
                     Gly_list, Thr_list, Ser_list, Met_list, Ala_list,
                     Tyr_list, His_list, Leu_list, Glu_list, Pro_list,
                     Val_list, Arg_list, Lys_list, Asn_list, Gln_list,
@@ -415,15 +415,14 @@ if group_mode == True:
             genome=open_file(new_path)
             error_format = False
         except:
-            print('File', i, "doesn't processed!")
-            print('Unreadable file \n')
+            print('File', i, "doesn't processed! Unreadable file \n")
             error_format = True
             error_number += 1
 
         if error_format == False:
             forma = file_format_def(genome)
             if forma == 'error':
-                print('File', i, "doesn't processed!")
+                print('File', i, "doesn't processed! Wrong file format")
             if forma == 'gbk':
                 try:
                     fna_path = os.path.join(path, 'genomes_fna_translates')
