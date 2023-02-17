@@ -203,7 +203,7 @@ def fna_in_nucleic_counter(file):
     all_codon_count += len(ALL_CODONS)
     GC = (G_new+C_new)*100/(G_new+C_new+A_new+T_new)
     perGC = str(format(GC, '.2f'))+'%'
-    print('GC-composition of the coding part', perGC)
+    print('G+C% кодирующей части', perGC)
 
     CODONS_list = Counter(ALL_CODONS)
 
