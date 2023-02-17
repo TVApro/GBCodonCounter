@@ -14,7 +14,9 @@ Analysis requires pandas, openpyxl and collections module:
      pip3 install collections
 
 The program accepts as input files:
+
 *.gb, .gbk, .gbff and other GenBank files containing annotations
+
 *.fna files containing nucleotide sequences of genes (be careful - the program is not yet able to adequately exclude tRNA, rRNA and ncRNA from such files)
 
 The program generates *.fna files without RNA itself in a separate folder, they can be used later
