@@ -84,7 +84,7 @@ def file_format_def(text):
         print('File formate: genbank')
     if text[:1] != '>' and text[:5] != "LOCUS":
         forma = 'error'
-        print('The input file does not match the format (genbank or .faa)')
+        print('The input file does not match the format (genbank or .fna)')
     return forma
         
 def gbk_to_fna(text, file_name, path):
