@@ -26,7 +26,7 @@ The program generates *.fna files without RNA itself in a separate folder, they 
 ### P.S.
 Warning 1. The files will contain numbers with dots, which are not defined as numbers in Russian localization.
 
-Solution 1: "Edit - Replace All" in any office program, replace all dots with commas
+Solution 1: "Edit - Replace All" in any office program (MS Excel, OnlyOffice, LibreOffice, WPS Office etc.), replace all dots with commas
 
 Warning 2. The error of determined percentages is set to the 6th decimal place by default.
 Since the average number of codons in a bacterial genome is approximately 600,000 - 700,000, for eukaryotic comparisons
