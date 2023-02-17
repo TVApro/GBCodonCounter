@@ -9,7 +9,9 @@ read the instructions inside and work!
 
 Analysis requires
      pandas module (pip3 install pandas)
+     
      openpyxl module (pip3 install openpyxl)
+     
      possibly the collections module (similar to the first two)
 
 The program accepts as input files:
