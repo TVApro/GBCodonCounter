@@ -7,7 +7,7 @@ read the instructions inside and work!
 
 ### The instruction from the Codon_Counter.py file
 
-Analysis requires pandas, openpyxl and collections module:
+Analysis requires pandas, openpyxl and collections modules:
 
      pip3 install pandas
      pip3 install openpyxl
