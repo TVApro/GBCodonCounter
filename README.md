@@ -1,4 +1,4 @@
-## Genomes_codon_counter
+## GBCodonCounter
 # Codon counter for easy work with annotated genomes
 
 It's easy. 
