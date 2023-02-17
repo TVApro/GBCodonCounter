@@ -30,6 +30,7 @@ The program accepts as input files:
 The program generates *.fna files without RNA itself in a separate folder, they can be used later
  
 ### P.S.
+
 Warning 1. The files will contain numbers with dots, which are not defined as numbers in Russian localization.
 
 Solution 1: "Edit - Replace All" in any office program (MS Excel, OnlyOffice, LibreOffice, WPS Office etc.), replace all dots with commas
