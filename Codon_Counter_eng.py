@@ -78,13 +78,13 @@ def file_format_def(text):
     forma = ''
     if text[:1] == '>':
         forma = 'fasta'
-        print('File formate: fasta')
+        print('File formate: FASTA')
     if text[:5] == "LOCUS":
         forma = 'gbk'
-        print('File formate: genbank')
+        print('File formate: GenBank')
     if text[:1] != '>' and text[:5] != "LOCUS":
         forma = 'error'
-        print('The input file does not match the format (genbank or .fna)')
+        print('The input file does not match the format (GenBank or FASTA)')
     return forma
         
 def gbk_to_fna(text, file_name, path):
