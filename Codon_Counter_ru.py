@@ -81,7 +81,7 @@ def file_format_def(text):
         print('Формат: GenBank')
     if text[:1] != '>' and text[:5] != "LOCUS":
         forma = 'error'
-        print('Входящий файл не соответствует формату (GenBank или аминокислотный FASTA)')
+        print('Входящий файл не соответствует формату (GenBank или FASTA)')
     return forma
         
 def gbk_to_fna(text, file_name, path):
