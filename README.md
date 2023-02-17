@@ -9,7 +9,7 @@ Amino_Counter is an old version for counting aminoacids in genome annotation
 
 Codon_counter is a new version, which counting both codons and aminoacids in genome sequences and annotations 
 
-Just install Python 3, open .py file in IDLE or another IDE,
+Just install Python 3 (https://www.python.org/), open .py file in IDLE or another IDE,
 read the instructions inside and work!
 
 
