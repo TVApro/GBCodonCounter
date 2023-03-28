@@ -437,7 +437,8 @@ if group_mode == True:
                     error_number += 1
             if forma == 'fasta':
                 try:
-                    new_row = fna_in_nucleic_counter(i)
+                    newfile = os.path.join(path, i)
+                    new_row = fna_in_nucleic_counter(newfile)
                     start_frame = pd.concat([start_frame, new_row], axis=1)
                     print('Файл', newfile, 'обработан\n')
                     genome_number += 1

@@ -114,6 +114,7 @@ def gbk_to_faa(text, file_name, path):
 
 def aa_in_faa_counter(file):
     global percentage
+    global ALL_AA_IN_EXPERIMENT
     with open(file, 'r') as myfile:
         text = myfile.read()
     faa_list = {}
@@ -128,6 +129,7 @@ def aa_in_faa_counter(file):
             ALL_AA += fasta_sequence
     genome_name_ind = file.rfind('/')
     genome_name = file[genome_name_ind+1:]
+    ALL_AA_IN_EXPERIMENT += len(ALL_AA)
     print('Получено', len(ALL_AA), 'аминокислотных остатков из файла', genome_name)
 
     Cys = ALL_AA.count('C')
@@ -163,32 +165,32 @@ def aa_in_faa_counter(file):
                     Ile, '', summ, hidrophobic, positively_charged, negatively_charged, uncharged, hydrophylic]})
 
     if percentage == True:
-        Cys_per = format(float((Cys/summ)*100), '.2f')
-        Trp_per = format(float((Trp/summ)*100), '.2f')
-        Asp_per = format(float((Asp/summ)*100), '.2f')
-        Phe_per = format(float((Phe/summ)*100), '.2f')
-        Gly_per = format(float((Gly/summ)*100), '.2f')
-        Thr_per = format(float((Thr/summ)*100), '.2f')
-        Ser_per = format(float((Ser/summ)*100), '.2f')
-        Met_per = format(float((Met/summ)*100), '.2f')
-        Ala_per = format(float((Ala/summ)*100), '.2f')
-        Tyr_per = format(float((Tyr/summ)*100), '.2f')
-        His_per = format(float((His/summ)*100), '.2f')
-        Leu_per = format(float((Leu/summ)*100), '.2f')
-        Glu_per = format(float((Glu/summ)*100), '.2f')
-        Pro_per = format(float((Pro/summ)*100), '.2f')
-        Val_per = format(float((Val/summ)*100), '.2f')
-        Arg_per = format(float((Arg/summ)*100), '.2f')
-        Lys_per = format(float((Lys/summ)*100), '.2f')
-        Asn_per = format(float((Asn/summ)*100), '.2f')
-        Gln_per = format(float((Gln/summ)*100), '.2f')
-        Ile_per = format(float((Ile/summ)*100), '.2f')
+        Cys_per = format(float((Cys/summ)*100), '.6f')
+        Trp_per = format(float((Trp/summ)*100), '.6f')
+        Asp_per = format(float((Asp/summ)*100), '.6f')
+        Phe_per = format(float((Phe/summ)*100), '.6f')
+        Gly_per = format(float((Gly/summ)*100), '.6f')
+        Thr_per = format(float((Thr/summ)*100), '.6f')
+        Ser_per = format(float((Ser/summ)*100), '.6f')
+        Met_per = format(float((Met/summ)*100), '.6f')
+        Ala_per = format(float((Ala/summ)*100), '.6f')
+        Tyr_per = format(float((Tyr/summ)*100), '.6f')
+        His_per = format(float((His/summ)*100), '.6f')
+        Leu_per = format(float((Leu/summ)*100), '.6f')
+        Glu_per = format(float((Glu/summ)*100), '.6f')
+        Pro_per = format(float((Pro/summ)*100), '.6f')
+        Val_per = format(float((Val/summ)*100), '.6f')
+        Arg_per = format(float((Arg/summ)*100), '.6f')
+        Lys_per = format(float((Lys/summ)*100), '.6f')
+        Asn_per = format(float((Asn/summ)*100), '.6f')
+        Gln_per = format(float((Gln/summ)*100), '.6f')
+        Ile_per = format(float((Ile/summ)*100), '.6f')
 
-        hidrophobic_per = format(float((hidrophobic/summ)*100), '.2f')
-        positively_charged_per = format(float((positively_charged/summ)*100), '.2f')
-        negatively_charged_per = format(float((negatively_charged/summ)*100), '.2f')
-        uncharged_per = format(float((uncharged/summ)*100), '.2f')
-        hydrophylic_per = format(float((hydrophylic/summ)*100), '.2f')
+        hidrophobic_per = format(float((hidrophobic/summ)*100), '.6f')
+        positively_charged_per = format(float((positively_charged/summ)*100), '.6f')
+        negatively_charged_per = format(float((negatively_charged/summ)*100), '.6f')
+        uncharged_per = format(float((uncharged/summ)*100), '.6f')
+        hydrophylic_per = format(float((hydrophylic/summ)*100), '.6f')
 
         new_row = pd.DataFrame({genome_name:  [Cys_per, Trp_per, Asp_per, Phe_per, Gly_per, Thr_per, Ser_per, Met_per, 
                     Ala_per, Tyr_per, His_per, Leu_per, Glu_per, Pro_per, Val_per, Arg_per, Lys_per, Asn_per, Gln_per, 
@@ -206,6 +208,7 @@ ab = pd.DataFrame({'Имя': ['Цистеин', 'Триптофан', 'Аспа�
         '0', '+-', '+', '0', '-', '0', '0', '+', '+', '+-', '+-', '0', '', '', '', '', '', '', '']})
 
 start()
+ALL_AA_IN_EXPERIMENT = 0
 if single_mode == True:
     genome_name_ind = file.rfind('/')
     path = file[:genome_name_ind-1]
@@ -277,7 +280,8 @@ if group_mode == True:
                     print('Файл', newfile, 'не обработан! Внутренняя ошибка\n')
             if forma == 'fasta':
                 try:
-                    new_row = aa_in_faa_counter(i)
+                    newfile = os.path.join(path, i)
+                    new_row = aa_in_faa_counter(newfile)
                     ab = pd.concat([ab, new_row], axis=1)
                     print('Файл', i, 'обработан!\n')
                     n += 1
@@ -289,3 +293,4 @@ if group_mode == True:
         print('\nОбработано', n, 'файлов')
         ab.to_excel('aminoacids.xlsx')
         print('\nВсё получилось, записан файл aminoacids.xlsx \n')
+        print('\nВсего во всех файлах обработано', ALL_AA_IN_EXPERIMENT, 'аминокислот')
